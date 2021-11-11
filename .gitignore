@@ -1,4 +1,5 @@
 played_games/
 old_played_games/
+chessbot_model/
 .*
 *.csv
