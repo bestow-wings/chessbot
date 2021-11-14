@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" href="css/chessboard-1.0.0.css">
+</head>
+<body>
+<div id="myBoard" style="width: 60%;"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="js/chessboard-1.0.0.min.js"></script>
+<script>
+// --- Begin Example JS --------------------------------------------------------
+var config = {
+  position: 'start',
+  showNotation: false,
+  draggable: true
+}
+var board = Chessboard('myBoard', config)
+$(window).resize(board.resize)
+// --- End Example JS ----------------------------------------------------------
+</script>
+</body>
+</html>
