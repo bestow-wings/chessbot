@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 <head>
   <link rel="stylesheet" href="css/chessboard-1.0.0.css">
 </head>
@@ -9,10 +10,20 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="js/chess.js"></script> 
 <script src="js/chessboard-1.0.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+
 <script>
-// --- Begin Example JS --------------------------------------------------------
 var board = null
 var game = new Chess()
+
+ async function load_model (path) {
+  console.log("Loading model...")
+  model = await tf.loadGraphModel(path)
+  console.log("Model loaded.")
+  return model
+}
+
+var chessmodel = load_model("web_model/model.json")
 
 function onDragStart (source, piece, position, orientation) {
   // do not pick up pieces if the game is over
@@ -34,13 +45,26 @@ function onDrop (source, target) {
   })
 
   // illegal move
-  if (move === null) return 'snapback'
+  if (move === null) {
+    return 'snapback'
+  }
 }
 
 // update the board position after the piece snap
 // for castling, en passant, pawn promotion
 function onSnapEnd () {
   board.position(game.fen())
+  $.ajax(
+      {
+        type: "POST",
+        url: "http://localhost:8000",
+        data: game.fen(),
+        success: function(data, status, xhr) {
+          board.position(data)
+          game.load(data)
+        }
+      }
+    );
 }
 
 var config = {
@@ -53,7 +77,6 @@ var config = {
 
 board = Chessboard('myBoard', config)
 
-// --- End Example JS ----------------------------------------------------------
 </script>
 </body>
 </html>
