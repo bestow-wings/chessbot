@@ -1,9 +1,7 @@
 played_games/
-old_played_games/
 chessbot_model/
-node_modules/
 chess_server.py
-.*
+.git*
 *.csv
 web/css
 web/img
