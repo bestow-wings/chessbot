@@ -1,10 +1,6 @@
 played_games/
 chessbot_model/
-chess_server.py
-.git*
 *.csv
 web/css
 web/img
 web/js
-web/web_model/*.bin
-package*
